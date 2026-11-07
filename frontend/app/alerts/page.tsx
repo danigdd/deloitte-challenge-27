@@ -4,7 +4,8 @@ import { useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import LayoutShell from "@/components/layout-shell";
 import { SeverityBadge } from "@/components/ui/severity-badge";
-import { socApi, Alert, formatDate } from "@/lib/api";
+import { socApi, formatDate } from "@/lib/api";
+import type { Alert } from "@/types/alerts";
 
 export default function AlertsPage() {
   const [alerts, setAlerts] = useState<Alert[]>([]);

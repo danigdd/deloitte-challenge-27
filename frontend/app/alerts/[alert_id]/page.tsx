@@ -2,11 +2,8 @@ import { notFound } from "next/navigation";
 import LayoutShell from "@/components/layout-shell";
 import { SeverityBadge } from "@/components/ui/severity-badge";
 import BackButton from "@/components/back-button";
-import {
-  socApi,
-  BackendAlertResponse,
-  formatDate,
-} from "@/lib/api";
+import { socApi, formatDate } from "@/lib/api";
+import type { BackendAlertResponse } from "@/types/alerts";
 
 export const revalidate = 0;
 

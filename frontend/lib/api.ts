@@ -1,3 +1,5 @@
+import type { Alert, BackendAlertResponse } from "@/types/alerts";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:5000";
 
 //generic typescript function that makes the request to our API
@@ -26,79 +28,6 @@ export function formatDate(iso?: string) {
   });
 }
 
-export type Alert = {
-  alert_id: string;
-  created_at: string;
-  source_product: string;
-  rule_id: string;
-  rule_name: string;
-  severity: "low" | "medium" | "high" | "critical";
-  status: string;
-  mitre: {
-    tactic: string;
-    technique_id: string;
-    technique: string;
-  };
-  description: string;
-  entities: {
-    ips: string[];
-    urls: string[];
-  };
-  evidence: {
-    rule_id: string;
-    rule_msg: string;
-    hits: number;
-    action: string;
-  };
-  related_events: string[];
-  runbook: string;
-};
-
-export type AlertUser = { upn: string; display_name: string };
-
-export type AlertDetail = {
-  alert_id?: string;
-  id?: string;
-  created_at?: string;
-  source_product?: string;
-  rule_id?: string;
-  rule_name?: string;
-  severity?: "low" | "medium" | "high" | "critical";
-  status?: string;
-  mitre?: { tactic?: string; technique_id?: string; technique?: string };
-  description?: string;
-  entities?: {
-    users?: AlertUser[];
-    domains?: string[];
-    ips?: string[];
-    urls?: string[];
-  };
-  evidence?: {
-    message_id?: string;
-    sender?: string;
-    subject?: string;
-    reported_by?: string;
-    action?: string;
-  };
-  related_events?: string[];
-  runbook?: string;
-};
-
-export type Triaje = {
-  veredicto?: string;
-  confianza?: string;
-  severidad_recalculada?: string;
-  resumen?: string;
-  evidencias?: string[];
-  accion_recomendada?: string;
-};
-
-export type BackendAlertResponse = {
-  status?: string;
-  alert_id?: string;
-  triaje?: Triaje;
-  alerta_original?: AlertDetail;
-};
 
 //use with await socApi.method
 export const socApi = {
@@ -135,37 +64,7 @@ export const socApi = {
   // Evidence that backs the detection
   // Related events
   // runbook (how to proceed)
-  getAlerts: () =>
-    request<{
-      total: number;
-      items: Array<{
-        alert_id: string;
-        created_at: string;
-        source_product: string;
-        rule_id: string;
-        rule_name: string;
-        severity: "low" | "medium" | "high" | "critical";
-        status: string;
-        mitre: {
-          tactic: string;
-          technique_id: string;
-          technique: string;
-        };
-        description: string;
-        entities: {
-          ips: string[];
-          urls: string[];
-        };
-        evidence: {
-          rule_id: string;
-          rule_msg: string;
-          hits: number;
-          action: string;
-        };
-        related_events: string[];
-        runbook: string;
-      }>;
-    }>("/api/alerts"),
+  getAlerts: () => request<{ total: number; items: Alert[] }>("/api/alerts"),
 
   getAgentActivity: () =>
     request<{ time: string; action: string }[]>("/api/agent-activity"),
