@@ -1,0 +1,6 @@
+duckdb>=1.1
+pytz
+jsonschema
+anthropic
+openai
+tzdata

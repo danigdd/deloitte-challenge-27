@@ -1,6 +1,6 @@
 import type { Alert, BackendAlertResponse } from "@/types/alerts";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:5001";
 
 //generic typescript function that makes the request to our API
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -27,7 +27,6 @@ export function formatDate(iso?: string) {
     minute: "2-digit",
   });
 }
-
 
 //use with await socApi.method
 export const socApi = {
@@ -123,5 +122,6 @@ export const socApi = {
     }),
 
   // get a single alert by its alert_id (backend wrapper: status/triaje/alerta_original)
-  getAlertById: (id: string) => request<BackendAlertResponse>(`/api/alerts/${id}`),
+  getAlertById: (id: string) =>
+    request<BackendAlertResponse>(`/api/alerts/${id}`),
 };
