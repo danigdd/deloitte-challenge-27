@@ -5,7 +5,7 @@ import BackButton from "@/components/back-button";
 import { socApi, formatDate } from "@/lib/api";
 import type { BackendAlertResponse } from "@/types/alerts";
 
-export const revalidate = 0;
+export const instant = false;
 
 function getVeredictoBadge(veredicto?: string) {
   switch (veredicto) {
@@ -193,7 +193,10 @@ export default async function AlertDetailPage({
                   </h3>
                   <ul className="space-y-1">
                     {alert.entities.users.map((u) => (
-                      <li key={u.upn} className="text-sm text-text font-mono break-all">
+                      <li
+                        key={u.upn}
+                        className="text-sm text-text font-mono break-all"
+                      >
                         {u.display_name} ({u.upn})
                       </li>
                     ))}
@@ -207,7 +210,10 @@ export default async function AlertDetailPage({
                   </h3>
                   <ul className="space-y-1">
                     {alert.entities.domains.map((d) => (
-                      <li key={d} className="text-sm text-text font-mono break-all">
+                      <li
+                        key={d}
+                        className="text-sm text-text font-mono break-all"
+                      >
                         {d}
                       </li>
                     ))}
@@ -219,7 +225,10 @@ export default async function AlertDetailPage({
                   <h3 className="text-xs font-mono text-muted mb-1">IPs</h3>
                   <ul className="space-y-1">
                     {alert.entities.ips.map((ip) => (
-                      <li key={ip} className="text-sm text-text font-mono break-all">
+                      <li
+                        key={ip}
+                        className="text-sm text-text font-mono break-all"
+                      >
                         {ip}
                       </li>
                     ))}
@@ -231,7 +240,10 @@ export default async function AlertDetailPage({
                   <h3 className="text-xs font-mono text-muted mb-1">URLs</h3>
                   <ul className="space-y-1">
                     {alert.entities.urls.map((url) => (
-                      <li key={url} className="text-sm text-text font-mono break-all">
+                      <li
+                        key={url}
+                        className="text-sm text-text font-mono break-all"
+                      >
                         {url}
                       </li>
                     ))}
@@ -252,19 +264,25 @@ export default async function AlertDetailPage({
               {alert.evidence.message_id && (
                 <div className="flex gap-2">
                   <span className="w-20 text-muted">Message ID</span>
-                  <span className="text-text break-all">{alert.evidence.message_id}</span>
+                  <span className="text-text break-all">
+                    {alert.evidence.message_id}
+                  </span>
                 </div>
               )}
               {alert.evidence.sender && (
                 <div className="flex gap-2">
                   <span className="w-20 text-muted">Remitente</span>
-                  <span className="text-text break-all">{alert.evidence.sender}</span>
+                  <span className="text-text break-all">
+                    {alert.evidence.sender}
+                  </span>
                 </div>
               )}
               {alert.evidence.subject && (
                 <div className="flex gap-2">
                   <span className="w-20 text-muted">Asunto</span>
-                  <span className="text-text break-all">{alert.evidence.subject}</span>
+                  <span className="text-text break-all">
+                    {alert.evidence.subject}
+                  </span>
                 </div>
               )}
               {alert.evidence.reported_by && (
@@ -278,7 +296,9 @@ export default async function AlertDetailPage({
               {alert.evidence.action && (
                 <div className="flex gap-2">
                   <span className="w-20 text-muted">Acción</span>
-                  <span className="text-text break-all">{alert.evidence.action}</span>
+                  <span className="text-text break-all">
+                    {alert.evidence.action}
+                  </span>
                 </div>
               )}
             </div>
