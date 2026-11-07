@@ -122,7 +122,9 @@ export default function AlertsPage() {
         <div className="flex items-center justify-between mb-3">
           <div>
             <p className="text-xs text-muted">Total de alertas</p>
-            <p className="text-sm font-mono font-semibold text-text">{realTotal}</p>
+            <p className="text-sm font-mono font-semibold text-text">
+              {realTotal}
+            </p>
           </div>
           {error && (
             <div className="inline-flex items-center gap-2 rounded-sm border border-crit/30 bg-crit/10 px-3 py-1 text-xs text-crit">

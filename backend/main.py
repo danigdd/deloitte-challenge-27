@@ -25,3 +25,5 @@ def triage_alert(alert_id : str):
         return {"status": "error", "message" : "Alerta no encontrada"}
     
     alert_data = response.json()
+    print("==================")
+    print(alert_data)
