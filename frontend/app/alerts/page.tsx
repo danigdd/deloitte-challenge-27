@@ -165,13 +165,13 @@ export default function AlertsPage() {
                     {a.status}
                   </td>
                   <td className="pb-2 font-mono text-muted">
-                    {a.entities.ips[0] ?? "—"}
+                    {a.entities?.ips?.[0] ?? "—"}
                   </td>
                   <td className="pb-2 font-mono text-muted">
-                    {a.evidence.action}
+                    {a.evidence?.action ?? "—"}
                   </td>
                   <td className="pb-2 font-mono text-muted">
-                    {a.mitre.technique_id} {a.mitre.technique}
+                    {a.mitre?.technique_id ?? ""} {a.mitre?.technique ?? ""}
                   </td>
                 </tr>
               ))}
