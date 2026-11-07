@@ -10,5 +10,5 @@ TRAVIA_API_URL = "http://127.0.0.1:8000"
 
 @app.get("/api/alerts")
 def get_alerts():
-    response = requests.get(f"{TRAVIA_API_URL}/alerts?status=new&limit=10")
+    response = requests.get(f"{TRAVIA_API_URL}/alerts?status=new&limit=200")
     return response.json()
