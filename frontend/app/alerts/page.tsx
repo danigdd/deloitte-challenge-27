@@ -181,7 +181,8 @@ export default function AlertsPage() {
                 {paginatedAlerts.map((a) => (
                   <tr
                     key={a.alert_id}
-                    className="border-t border-surface/50 hover:bg-surface/50 transition-colors"
+                    onClick={() => router.push(`/alerts/${a.alert_id}`)}
+                    className="border-t border-surface/50 hover:bg-surface/100 transition-colors cursor-pointer"
                   >
                     <td className="pb-2 font-mono text-text">{a.alert_id}</td>
                     <td className="pb-2 font-mono text-muted">

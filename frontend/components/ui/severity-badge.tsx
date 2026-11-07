@@ -6,7 +6,7 @@ const SEVERITY: Record<
 > = {
   low: { label: "Low", color: "text-accent", muted: "bg-accent-muted" },
   medium: { label: "Medium", color: "text-warn", muted: "bg-warn-muted" },
-  high: { label: "High", color: "text-warn", muted: "bg-warn-muted" },
+  high: { label: "High", color: "text-crit", muted: "bg-crit-muted" },
   critical: { label: "Critical", color: "text-crit", muted: "bg-crit-muted" },
 };
 
