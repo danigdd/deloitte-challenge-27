@@ -1,10 +1,12 @@
-import { SeverityBadge } from "./ui/severity-badge";
+import { SeverityBadge } from "@/components/ui/severity-badge";
+
+type Severity = "low" | "medium" | "high" | "critical";
 
 interface TimelineEvent {
   time: string;
   title: string;
   source: string;
-  severity: "low" | "medium" | "high" | "critical";
+  severity: Severity;
   description?: string;
 }
 

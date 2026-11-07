@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Badge } from "./ui/badge";
 
 const navLinks = [
   { href: "/", label: "Product" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/investigation", label: "Investigation" },
-  { href: "/reports", label: "Reports" },
+  { href: "/alerts", label: "Alertas" },
+  { href: "/investigation", label: "Investigación" },
+  { href: "/reports", label: "Informes" },
 ];
 
 export default function Navigation() {

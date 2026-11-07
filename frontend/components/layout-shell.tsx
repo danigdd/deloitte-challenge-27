@@ -7,7 +7,7 @@ interface ShellItem {
 
 const shellItems: ShellItem[] = [
   { href: "/dashboard", label: "Overview" },
-  { href: "/dashboard#alerts", label: "Alerts" },
+  { href: "/alerts", label: "Alerts" },
   { href: "/investigation", label: "Incidents" },
   { href: "/dashboard#agent", label: "Agent activity" },
   { href: "/reports", label: "Reports" },

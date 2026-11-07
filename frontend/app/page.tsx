@@ -102,16 +102,19 @@ export default function Home() {
           </div>
           <nav className="mt-10 md:mt-0 flex flex-col md:flex-row gap-6 text-xs text-muted">
             <Link href="/" className="hover:text-accent focus-visible-ring">
-              Product
+              Producto
             </Link>
             <Link href="/dashboard" className="hover:text-accent focus-visible-ring">
               Dashboard
             </Link>
+            <Link href="/alerts" className="hover:text-accent focus-visible-ring">
+              Alertas
+            </Link>
             <Link href="/investigation" className="hover:text-accent focus-visible-ring">
-              Investigation
+              Investigación
             </Link>
             <Link href="/reports" className="hover:text-accent focus-visible-ring">
-              Reports
+              Informes
             </Link>
           </nav>
         </div>
