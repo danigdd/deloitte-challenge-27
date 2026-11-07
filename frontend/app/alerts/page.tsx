@@ -4,45 +4,7 @@ import { useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import LayoutShell from "@/components/layout-shell";
 import { SeverityBadge } from "@/components/ui/severity-badge";
-import { socApi } from "@/lib/api";
-
-type Alert = {
-  alert_id: string;
-  created_at: string;
-  source_product: string;
-  rule_id: string;
-  rule_name: string;
-  severity: "low" | "medium" | "high" | "critical";
-  status: string;
-  mitre: {
-    tactic: string;
-    technique_id: string;
-    technique: string;
-  };
-  description: string;
-  entities: {
-    ips: string[];
-    urls: string[];
-  };
-  evidence: {
-    rule_id: string;
-    rule_msg: string;
-    hits: number;
-    action: string;
-  };
-  related_events: string[];
-  runbook: string;
-};
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleString("es-ES", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+import { socApi, Alert, formatDate } from "@/lib/api";
 
 export default function AlertsPage() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -54,22 +16,30 @@ export default function AlertsPage() {
 
   const realTotal = alerts.length;
   const totalPages = Math.ceil(realTotal / ITEMS_PER_PAGE) || 1;
+
+  // Example use. If we have 100 alerts and in page 1, we will get 0-50 alerts (1-1) * 50 = 0, 1 * 50 = 50.
   const paginatedAlerts = alerts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
 
   const goToPage = (page: number) => {
+    //We filter invalid pages
     const p = Math.max(1, Math.min(page, totalPages));
     setCurrentPage(p);
     router.replace(`?page=${p}`, { scroll: false });
   };
 
+  //CALL ALERTS SOCAPI
   useEffect(() => {
+    //we prevent api response if user starts the request and leaves before the response is received
     let cancelled = false;
+
+    //CRITICAL: we call our getAlerts socAPI method, we wait for the promise with then((data) => )
     socApi
       .getAlerts()
       .then((data) => {
+        //we save the alerts from our method
         if (!cancelled) {
           setAlerts(data.items);
           setLoading(false);
@@ -86,8 +56,9 @@ export default function AlertsPage() {
     };
   }, []);
 
+  //change page from params
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search); //get current params
     const pageParam = params.get("page");
     const page = pageParam ? parseInt(pageParam, 10) : NaN;
 
@@ -98,8 +69,9 @@ export default function AlertsPage() {
     };
 
     syncFromUrl();
-  }, [totalPages]);
+  }, [totalPages]); //when total pages changes
 
+  //same thing with browser buttons
   useEffect(() => {
     const onPopState = () => {
       const params = new URLSearchParams(window.location.search);

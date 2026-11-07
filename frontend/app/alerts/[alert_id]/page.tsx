@@ -2,65 +2,13 @@ import { notFound } from "next/navigation";
 import LayoutShell from "@/components/layout-shell";
 import { SeverityBadge } from "@/components/ui/severity-badge";
 import BackButton from "@/components/back-button";
+import {
+  socApi,
+  BackendAlertResponse,
+  formatDate,
+} from "@/lib/api";
 
-export const instant = false;
-
-type AlertUser = { upn: string; display_name: string };
-
-type AlertDetail = {
-  alert_id?: string;
-  id?: string;
-  created_at?: string;
-  source_product?: string;
-  rule_id?: string;
-  rule_name?: string;
-  severity?: "low" | "medium" | "high" | "critical";
-  status?: string;
-  mitre?: { tactic?: string; technique_id?: string; technique?: string };
-  description?: string;
-  entities?: {
-    users?: AlertUser[];
-    domains?: string[];
-    ips?: string[];
-    urls?: string[];
-  };
-  evidence?: {
-    message_id?: string;
-    sender?: string;
-    subject?: string;
-    reported_by?: string;
-    action?: string;
-  };
-  related_events?: string[];
-  runbook?: string;
-};
-
-type Triaje = {
-  veredicto?: string;
-  confianza?: string;
-  severidad_recalculada?: string;
-  resumen?: string;
-  evidencias?: string[];
-  accion_recomendada?: string;
-};
-
-type BackendResponse = {
-  status?: string;
-  alert_id?: string;
-  triaje?: Triaje;
-  alerta_original?: AlertDetail;
-};
-
-function formatDate(iso?: string) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleString("es-ES", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+export const revalidate = 0;
 
 function getVeredictoBadge(veredicto?: string) {
   switch (veredicto) {
@@ -83,16 +31,12 @@ export default async function AlertDetailPage({
   const { alert_id } =
     typeof params === "object" && !("then" in params) ? params : await params;
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:5000";
-
-  const res = await fetch(`${API_BASE}/api/alerts/${alert_id}`, {
-    headers: { "Content-Type": "application/json" },
-    cache: "no-store",
-  });
-
-  if (!res.ok) return notFound();
-
-  const data: BackendResponse = await res.json();
+  let data: BackendAlertResponse;
+  try {
+    data = await socApi.getAlertById(alert_id);
+  } catch {
+    return notFound();
+  }
 
   if (data.status === "error" || !data.alerta_original) return notFound();
 
