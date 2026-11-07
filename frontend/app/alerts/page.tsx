@@ -12,14 +12,20 @@ export default function AlertsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [severityFilter, setSeverityFilter] = useState<
+    "all" | "low" | "medium" | "high" | "critical"
+  >("all");
   const ITEMS_PER_PAGE = 50;
   const router = useRouter();
 
-  const realTotal = alerts.length;
+  const filteredAlerts = alerts.filter(
+    (a) => severityFilter === "all" || a.severity === severityFilter,
+  );
+  const realTotal = filteredAlerts.length;
   const totalPages = Math.ceil(realTotal / ITEMS_PER_PAGE) || 1;
 
   // Example use. If we have 100 alerts and in page 1, we will get 0-50 alerts (1-1) * 50 = 0, 1 * 50 = 50.
-  const paginatedAlerts = alerts.slice(
+  const paginatedAlerts = filteredAlerts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
@@ -92,12 +98,64 @@ export default function AlertsPage() {
       description="Alertas de seguridad detectadas por el agente SOC."
     >
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
           <div>
             <p className="text-xs text-muted">Total de alertas</p>
             <p className="text-sm font-mono font-semibold text-text">
               {realTotal}
             </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setSeverityFilter("all")}
+              className={`px-2 py-1 text-xs rounded border font-mono ${
+                severityFilter === "all"
+                  ? "bg-surface text-text border-surface"
+                  : "border-surface/50 text-muted hover:bg-surface/50"
+              }`}
+            >
+              Todos
+            </button>
+            <button
+              onClick={() => setSeverityFilter("low")}
+              className={`px-2 py-1 text-xs rounded border font-mono ${
+                severityFilter === "low"
+                  ? "bg-accent-muted text-accent border-accent"
+                  : "border-surface/50 text-muted hover:bg-surface/50"
+              }`}
+            >
+              Low
+            </button>
+            <button
+              onClick={() => setSeverityFilter("medium")}
+              className={`px-2 py-1 text-xs rounded border font-mono ${
+                severityFilter === "medium"
+                  ? "bg-warn-muted text-warn border-warn"
+                  : "border-surface/50 text-muted hover:bg-surface/50"
+              }`}
+            >
+              Medium
+            </button>
+            <button
+              onClick={() => setSeverityFilter("high")}
+              className={`px-2 py-1 text-xs rounded border font-mono ${
+                severityFilter === "high"
+                  ? "bg-crit-muted text-crit border-crit"
+                  : "border-surface/50 text-muted hover:bg-surface/50"
+              }`}
+            >
+              High
+            </button>
+            <button
+              onClick={() => setSeverityFilter("critical")}
+              className={`px-2 py-1 text-xs rounded border font-mono ${
+                severityFilter === "critical"
+                  ? "bg-crit text-white border-crit"
+                  : "border-surface/50 text-muted hover:bg-surface/50"
+              }`}
+            >
+              Critical
+            </button>
           </div>
           {error && (
             <div className="inline-flex items-center gap-2 rounded-sm border border-crit/30 bg-crit/10 px-3 py-1 text-xs text-crit">
